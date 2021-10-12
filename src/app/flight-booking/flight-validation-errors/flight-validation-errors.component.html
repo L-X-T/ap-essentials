@@ -7,3 +7,7 @@
 <div *ngIf="errors?.maxlength"> {{ fieldLabel }} maxlength is {{ maxLength }}. </div>
 
 <div *ngIf="errors?.pattern"> {{ fieldLabel }} has invalid input. </div>
+
+<div *ngIf="errors?.city"> {{ fieldLabel }} is {{ errors.city.actualCity }} but should be a city of {{ errors.city.validCities }} </div>
+
+<div *ngIf="errors?.asyncCity"> Async: No flights found with that "{{ fieldLabel }}". </div>
