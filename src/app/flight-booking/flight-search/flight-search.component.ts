@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./flight-search.component.css']
 })
 export class FlightSearchComponent implements OnInit, OnDestroy {
-  from = '';
+  from = 'Graz';
   to = 'Hamburg';
 
   minLength = 3;
@@ -23,6 +23,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
   flightsSubscription: Subscription;
 
   selectedFlight: Flight;
+  flightToEdit: Flight;
 
   message: string;
 
@@ -78,14 +79,10 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     Object.values(formGroup.controls).forEach((c) => c.markAsDirty());
   }
 
-  select(f: Flight): void {
-    this.selectedFlight = f;
-  }
-
-  save(): void {
-    this.flightService.save(this.selectedFlight).subscribe({
+  /*save(): void {
+    this.flightService.save(this.flightToEdit).subscribe({
       next: (flight) => {
-        this.selectedFlight = flight;
+        this.flightToEdit = flight;
         this.message = 'Success!';
       },
       error: (errResponse) => {
@@ -93,5 +90,5 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
         this.message = 'Error!';
       }
     });
-  }
+  }*/
 }
