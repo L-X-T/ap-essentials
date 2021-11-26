@@ -3,8 +3,10 @@ import { FormGroup } from '@angular/forms';
 
 import { Flight } from '../../entities/flight';
 import { FlightService } from './flight.service';
+
 import { Observable, Observer, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { pattern } from '../../shared/global';
 
 @Component({
   selector: 'flight-search',
@@ -24,6 +26,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   selectedFlight: Flight;
   flightToEdit: Flight;
+  pattern = pattern;
 
   message: string;
 
