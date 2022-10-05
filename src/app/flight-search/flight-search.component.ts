@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Flight } from '../entities/flight';
 import { FlightService } from './flight.service';
 import { Observable, Observer, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { share, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'flight-search',
@@ -30,7 +30,7 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
 
   search(): void {
     // 1. my observable
-    this.flights$ = this.flightService.find(this.from, this.to);
+    this.flights$ = this.flightService.find(this.from, this.to).pipe(share());
 
     // 2. my observer
     const flightsObserver: Observer<Flight[]> = {
