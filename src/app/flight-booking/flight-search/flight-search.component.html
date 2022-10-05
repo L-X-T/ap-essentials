@@ -17,7 +17,8 @@
                pattern="[a-zA-ZäöüÄÖÜß ]*">
       </div>
 
-      <flight-validation-errors fieldLabel="From"
+      <flight-validation-errors *ngIf="flightSearchForm.controls.from?.dirty"
+                                fieldLabel="From"
                                 [errors]="flightSearchForm.controls.from?.errors"
                                 [minLength]="minLength"
                                 [maxLength]="maxLength">
@@ -34,7 +35,8 @@
                pattern="[a-zA-ZäöüÄÖÜß ]*">
       </div>
 
-      <flight-validation-errors fieldLabel="To"
+      <flight-validation-errors *ngIf="flightSearchForm.controls.to?.dirty"
+                                fieldLabel="To"
                                 [errors]="flightSearchForm.controls.to?.errors"
                                 [minLength]="minLength"
                                 [maxLength]="maxLength">
@@ -42,7 +44,6 @@
 
       <div class="form-group">
         <button
-          [disabled]="!to || !from || flightSearchForm.invalid"
           (click)="search()"
           class="btn btn-default">Search</button>
       </div>

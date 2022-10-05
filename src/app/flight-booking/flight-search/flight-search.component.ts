@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { Flight } from '../../entities/flight';
 import { FlightService } from './flight.service';
@@ -32,6 +33,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     5: true
   };
 
+  @ViewChild('flightSearchForm') flightSearchForm: FormGroup;
+
   constructor(private flightService: FlightService) {}
 
   ngOnInit(): void {
@@ -40,7 +43,21 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy(): void {
+    // 4. my unsubscribe
+    // this.flightsSubscription?.unsubscribe();
+
+    // const my$ = this.onDestroySubject.asObservable();
+    this.onDestroySubject.next();
+    this.onDestroySubject.complete();
+  }
+
   search(): void {
+    if (!this.from || !this.to || this.flightSearchForm?.invalid) {
+      this.markFormGroupDirty(this.flightSearchForm);
+      return;
+    }
+
     // 1. my observable
     this.flights$ = this.flightService.find(this.from, this.to);
 
@@ -57,13 +74,8 @@ export class FlightSearchComponent implements OnInit, OnDestroy {
     this.flights$.pipe(takeUntil(this.onDestroySubject)).subscribe(flightsObserver);
   }
 
-  ngOnDestroy(): void {
-    // 4. my unsubscribe
-    // this.flightsSubscription?.unsubscribe();
-
-    // const my$ = this.onDestroySubject.asObservable();
-    this.onDestroySubject.next();
-    this.onDestroySubject.complete();
+  private markFormGroupDirty(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach((c) => c.markAsDirty());
   }
 
   select(f: Flight): void {
